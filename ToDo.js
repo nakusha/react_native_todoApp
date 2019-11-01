@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, TextInput } from "react-native";
 import { getTimeFieldValues } from "uuid-js";
 
 const { width, height } = Dimensions.get("window")
@@ -7,11 +7,13 @@ const { width, height } = Dimensions.get("window")
 export default class ToDo extends React.Component{
     state = {
         isEditing: false,
-        isCompleted: false
+        isCompleted: false,
+        toDoValue: ""
     };
 
     render() {
-        const { isCompleted, isEditing } = this.state;
+        const { isCompleted, isEditing, toDoValue } = this.state;
+        const { text } = this.props;
         return (
             <View style={styles.container}>
                 <View style={styles.column}>
@@ -21,18 +23,34 @@ export default class ToDo extends React.Component{
                             isCompleted ? styles.completedCircle : styles.uncompletedCircle
                         ]}/>
                     </TouchableOpacity>
-                    <Text 
-                        style={[
-                            styles.text, 
-                            isCompleted ? styles.completedText : styles.uncompletedText
-                        ]}
-                    >
-                    Hello I'm a To Do
-                    </Text>
+                    { isEditing ? (
+                            <TextInput 
+                                style={[
+                                    styles.input, 
+                                    styles.text,
+                                    isCompleted ? styles.completedText : styles.uncompletedText
+                                ]} 
+                                multiline={true} 
+                                value={toDoValue}
+                                onChangeText={this._constorlInput}
+                                returnKeyType={"done"}
+                                //blur 빈공간 클릭시 수정 종료
+                                onBlur={this._finishEditing}/>
+                        ) : (
+                            <Text 
+                                style={[
+                                styles.text, 
+                                isCompleted ? styles.completedText : styles.uncompletedText
+                                ]}
+                            >
+                                {text}
+                            </Text>
+                        )
+                    }
                 </View>
                 {isEditing ? (
                     <View style={styles.actions}>
-                        <TouchableOpacity onPressOut={this._finishEditing}>
+                        <TouchableOpacity onPress={this._finishEditing}>
                             <View style={styles.actionContainer}>
                                <Text style={styles.actionsText}>V</Text>
                             </View>
@@ -40,7 +58,7 @@ export default class ToDo extends React.Component{
                     </View>
                 ) : (
                     <View style={styles.actions}>
-                        <TouchableOpacity onPressOut={this._startingEditing}>
+                        <TouchableOpacity onPress={this._startingEditing}>
                             <View style={styles.actionContainer}>
                                 <Text style={styles.actionsText}>M</Text>
                             </View>
@@ -64,14 +82,21 @@ export default class ToDo extends React.Component{
         });
     };
     _startingEditing = () => {
+        const {text} = this.props
         this.setState({
-            isEditing: true
+            isEditing: true,
+            toDoValue: text
         });
     };
     _finishEditing = () => {
         this.setState({
             isEditing: false
         });
+    }
+    _constorlInput = (text) => {
+        this.setState({
+            toDoValue: text
+        })
     }
 }
 
@@ -125,5 +150,9 @@ const styles = StyleSheet.create({
         padding:5,
         borderWidth: 1,
         borderColor: "#bbb"
+    },
+    input: {
+        marginVertical: 10,
+        width: width / 2
     }
 })
