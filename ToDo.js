@@ -50,7 +50,8 @@ export default class ToDo extends React.Component{
                                 onChangeText={this._constorlInput}
                                 returnKeyType={"done"}
                                 //blur 빈공간 클릭시 수정 종료
-                                onBlur={this._finishEditing}/>
+                                onBlur={this._finishEditing}
+                                underlineColorAndroid={"transparent"}/>
                         ) : (
                             <Text 
                                 style={[
