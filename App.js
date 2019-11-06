@@ -63,7 +63,7 @@ export default class App extends React.Component {
       const toDos = await AsyncStorage.getItem("toDos");
       // string 으로 저장되어있기때문에 object로 변환작업을 해줘야한다.
       const paredToDos = JSON.parse(toDos)
-      this.setState({ loadedToTos : true, toDos: paredToDos })
+      this.setState({ loadedToTos : true, toDos: paredToDos || {}})
     }catch(err){ 
       console.log(err)
     }
