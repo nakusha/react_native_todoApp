@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, TextInput } from "react-native";
 import PropTypes from "prop-types"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 const { width, height } = Dimensions.get("window")
 // state를 사용할떄는 class로 선언해야한다.
@@ -66,7 +67,12 @@ export default class ToDo extends React.Component{
                     <View style={styles.actions}>
                         <TouchableOpacity onPress={this._finishEditing}>
                             <View style={styles.actionContainer}>
-                               <Text style={styles.actionsText}>V</Text>
+                               <Text style={styles.actionsText}>
+                                    <MaterialCommunityIcons 
+                                        name={"check-outline"} 
+                                        size={30} 
+                                        color="black"/>
+                               </Text>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -74,12 +80,22 @@ export default class ToDo extends React.Component{
                     <View style={styles.actions}>
                         <TouchableOpacity onPress={this._startingEditing}>
                             <View style={styles.actionContainer}>
-                                <Text style={styles.actionsText}>M</Text>
+                                <Text style={styles.actionsText}>
+                                    <MaterialCommunityIcons 
+                                        name={"square-edit-outline"} 
+                                        size={30} 
+                                        color="black"/>
+                                </Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => deleteToDo(id)}>
                             <View style={styles.actionContainer}>
-                                <Text style={styles.actionsText}>X</Text>
+                                <Text style={styles.actionsText}>
+                                    <MaterialCommunityIcons 
+                                        name={"delete-outline"} 
+                                        size={30} 
+                                        color="black"/>
+                                </Text>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -159,10 +175,7 @@ const styles = StyleSheet.create({
     },
     actionContainer: {
         marginVertical: 10,
-        marginHorizontal: 10,
-        padding:5,
-        borderWidth: 1,
-        borderColor: "#bbb"
+        marginHorizontal: 10
     },
     input: {
         marginVertical: 10,
