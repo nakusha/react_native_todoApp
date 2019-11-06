@@ -40,7 +40,7 @@ export default class App extends React.Component {
             onSubmitEditing={this._addToDo}
             />
           <ScrollView contentContainerStyle={styles.toDos}>
-            {Object.values(toDos).map(toDo => <ToDo key={toDo.id}
+            {Object.values(toDos).reverse().map(toDo => <ToDo key={toDo.id}
                                                     deleteToDo={this._deleteToDo}
                                                     uncompleteToDo={this._uncompleteToDo}
                                                     completeToDo={this._completeToDo}
@@ -58,10 +58,16 @@ export default class App extends React.Component {
     })
   }
   
-  _loadToDos = () => {
-    this.setState({
-      loadedToTos : true
-    })
+  _loadToDos = async () => {
+    try {
+      const toDos = await AsyncStorage.getItem("toDos");
+      // string 으로 저장되어있기때문에 object로 변환작업을 해줘야한다.
+      const paredToDos = JSON.parse(toDos)
+      this.setState({ loadedToTos : true, toDos: paredToDos })
+    }catch(err){ 
+      console.log(err)
+    }
+    
   }
 
   _addToDo = () => {
