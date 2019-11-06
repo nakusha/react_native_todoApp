@@ -88,7 +88,10 @@ export default class ToDo extends React.Component{
                                 </Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => deleteToDo(id)}>
+                        <TouchableOpacity onPress={(event) => {
+                            event.stopPropagation;
+                            deleteToDo(id)
+                            }}>
                             <View style={styles.actionContainer}>
                                 <Text style={styles.actionsText}>
                                     <MaterialCommunityIcons 
@@ -104,7 +107,8 @@ export default class ToDo extends React.Component{
         )
     }
 
-    _toogleComplete = () => {
+    _toogleComplete = (event) => {
+        event.stopPropagation()
         const { isCompleted, completeToDo, uncompleteToDo, id } = this.props;
         if (isCompleted){
             uncompleteToDo(id)
@@ -112,10 +116,13 @@ export default class ToDo extends React.Component{
             completeToDo(id)
         }
     };
-    _startingEditing = () => {
+    _startingEditing = (event) => {
+        event.stopPropagation()
         this.setState({  isEditing: true });
     };
-    _finishEditing = () => {
+
+    _finishEditing = (event) => {
+        event.stopPropagation()
         const { toDoValue } = this.state;
         const { id, updateToDo }  = this.props;
         updateToDo(id, toDoValue);
