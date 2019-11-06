@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, Platform, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, TextInput, Dimensions, Platform, ScrollView, AsyncStorage } from 'react-native';
 import ToDo from "./ToDo";
 import { AppLoading } from "expo";
 import uuidv1 from "uuid/v1";
@@ -86,7 +86,7 @@ export default class App extends React.Component {
             ...newToDoObject
           }
         };
-
+        this._saveToDos(newState.toDos);
         return {...newState};
       })
     }
@@ -100,6 +100,7 @@ export default class App extends React.Component {
         ...prevState,
         ...toDos
       }
+      this._saveToDos(newState.toDos);
       return { ...newState };
     })
   }
@@ -116,6 +117,7 @@ export default class App extends React.Component {
           }
         }
       }
+      this._saveToDos(newState.toDos);
       return { ...newState };
     })
   }
@@ -132,6 +134,8 @@ export default class App extends React.Component {
           }
         }
       }
+      
+      this._saveToDos(newState.toDos);
       return { ...newState };
     })
   }
@@ -147,8 +151,14 @@ export default class App extends React.Component {
           }
         }
       }
+      this._saveToDos(newState.toDos);
       return { ...newState };
     })
+  }
+
+  _saveToDos = (newToDos) => {
+    //asyncstorage는 string저장용 object가아니다.
+    const saveToDos = AsyncStorage.setItem("toDos", JSON.stringify(newToDos));
   }
 }
 
